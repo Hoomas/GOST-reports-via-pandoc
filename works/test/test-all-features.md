@@ -3,6 +3,7 @@ doc-type: "Лабораторная работа"
 work-number: "7"
 subject: "Комплексное тестирование шаблона"
 title: "Проверка всех возможностей pandoc-шаблона ГОСТ ТПУ"
+variant: "5"
 teacher-position: "доцент, к.т.н."
 teacher: "Петров П. П."
 authors:
