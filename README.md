@@ -95,13 +95,13 @@ number-sections: true
 
 ## Где менять что
 
-| Хочу изменить                          | Где                                                      |
-| -------------------------------------- | -------------------------------------------------------- |
-| Шапку титульника (вуз, школа)          | `pandoc/template.tex`, блок `\begin{titlepage}`          |
-| Дефолтного автора / группу             | `pandoc/template.tex`, блок `\begin{titlepage}` (`$else$` ветки) |
-| Шрифт / размер                         | `pandoc/template.tex`, секция 2 / 4                      |
-| Поля страницы                          | `pandoc/template.tex`, секция 3 (`\usepackage[...]{geometry}`) |
-| Формат заголовков                      | `pandoc/template.tex`, секция 5 (`\titleformat{...}`)    |
-| Формат TOC (отступы, лидеры)           | `pandoc/template.tex`, секция 5, подразделы 6–9          |
-| Префиксы crossref («табл.», «рис.»)    | `pandoc/gost_report.yaml`, блок `metadata`               |
-| Стиль библиографии                     | `pandoc/bibliography/*.csl`                              |
+| Хочу изменить                       | Где                                                              |
+| ----------------------------------- | ---------------------------------------------------------------- |
+| Шапку титульника (вуз, школа)       | `pandoc/template.tex`, блок `\begin{titlepage}`                  |
+| Дефолтного автора / группу          | `pandoc/template.tex`, блок `\begin{titlepage}` (`$else$` ветки) |
+| Шрифт / размер                      | `pandoc/template.tex`, секция 2 / 4                              |
+| Поля страницы                       | `pandoc/template.tex`, секция 3 (`\usepackage[...]{geometry}`)   |
+| Формат заголовков                   | `pandoc/template.tex`, секция 5 (`\titleformat{...}`)            |
+| Формат TOC (отступы, лидеры)        | `pandoc/template.tex`, секция 5, подразделы 6–9                  |
+| Префиксы crossref («табл.», «рис.») | `pandoc/gost_report.yaml`, блок `metadata`                       |
+| Стиль библиографии                  | `pandoc/bibliography/*.csl`                                      |
