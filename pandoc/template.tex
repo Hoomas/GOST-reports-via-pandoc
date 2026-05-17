@@ -1,0 +1,406 @@
+% УНИВЕРСАЛЬНЫЙ ШАБЛОН ВКР (Версия 17.4 - РАМКА ВОКРУГ КОДА)
+%\documentclass[a4paper, 14pt]{article}
+
+\documentclass[a4paper,14pt]{extarticle}
+
+
+% === 1. ПОДДЕРЖКА КОДА ===
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\usepackage{fvextra}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\tolerance=9999
+\emergencystretch=3em
+$if(highlighting-macros)$
+$highlighting-macros$
+
+% --- Переопределение стиля листингов ---
+% Моноширинный шрифт Courier New (из setmonofont), 14pt, нумерация каждой строки
+\RecustomVerbatimEnvironment{Highlighting}{Verbatim}{
+    commandchars=\\\{\},
+    breaklines,             % Перенос длинных строк
+    breakanywhere,          % Можно ломать в любом месте
+    fontsize=\normalsize,   % 14pt — основной размер
+    numbers=left,           % Нумерация слева
+    numberfirstline=true,
+    stepnumber=1,           % Номер у каждой строки
+    numbersep=10pt,         % Отступ номера от кода
+    firstnumber=1,          % Начинать нумерацию с 1
+    xleftmargin=2.5em       % Сдвиг кода вправо, чтобы номера не лезли на рамку
+}
+% Размер номеров строк = как у кода (по умолчанию fancyvrb берёт \scriptsize)
+\renewcommand{\theFancyVerbLine}{\normalfont\normalsize\arabic{FancyVerbLine}}
+$endif$
+
+
+% === 2. ШРИФТЫ И ЯЗЫК ===
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX} 
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\usepackage[english, main=russian]{babel}
+
+% === 3. ГЕОМЕТРИЯ ===
+\usepackage[left=30mm, right=15mm, top=20mm, bottom=20mm]{geometry}
+
+% === 4. ИНТЕРВАЛЫ ===
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{indentfirst}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\usepackage{ragged2e} 
+
+% === 5. ЗАГОЛОВКИ И ОГЛАВЛЕНИЕ ===
+\usepackage{titlesec}
+\usepackage{tocloft}
+% \sectionbreak — пусто. Разрыв страницы и якорь решает Lua-фильтр page-break-sections.lua,
+% который вставляет \clearpage\phantomsection ПЕРЕД каждым h1. Тогда hyperref-якорь
+% от \hypertarget уже относится к новой странице — клики из TOC ведут точно в цель.
+\newcommand{\sectionbreak}{}
+
+% --- 1. ПРИНУДИТЕЛЬНОЕ ЦЕНТРИРОВАНИЕ "СОДЕРЖАНИЯ" ---
+% Мы используем хук AtBeginDocument, чтобы перебить настройки Babel
+\AtBeginDocument{
+  \renewcommand{\contentsname}{Содержание}
+  \renewcommand{\cfttoctitlefont}{\hfill\normalfont\normalsize} % По центру, не жирный
+  \renewcommand{\cftaftertoctitle}{\hfill}
+}
+
+% Если Pandoc использует \section*, перехватим и это
+\titleformat{name=\section,numberless}[block]
+  {\normalfont\normalsize\centering}{}{0pt}{}
+\titlespacing{name=\section,numberless}{0pt}{12pt}{12pt}
+
+% --- 2. ГЛАВЫ (1. ...) ---
+\titleformat{\section}{\centering}{\thesection}{1em}{}
+\titlespacing{\section}{0pt}{12pt}{12pt}
+
+% --- 3. ПОДРАЗДЕЛЫ (1.1. ...) ---
+\titleformat{\subsection}{\justifying\normalfont\normalsize}{\leavevmode\hspace{1.25cm}\thesubsection}{1em}{}
+\titlespacing{\subsection}{0pt}{12pt}{0pt}
+
+% --- 4. ПОД-ПОДРАЗДЕЛЫ ---
+\titleformat{\subsubsection}{\justifying\normalfont\normalsize}{\leavevmode\hspace{1.25cm}\thesubsubsection}{1em}{}
+\titlespacing{\subsubsection}{0pt}{12pt}{0pt}
+
+% --- 5. ПАРАГРАФЫ ---
+\titleformat{\paragraph}[runin]{\bfseries}{\theparagraph}{1em}{}
+\titlespacing{\paragraph}{\parindent}{0pt}{1em}
+
+% --- 6. ШРИФТЫ СПИСКА TOC ---
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftsubsubsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsubsecpagefont}{\normalfont}
+
+% --- 7. ТОЧКИ-ЛИДЕРЫ ДЛЯ ВСЕХ УРОВНЕЙ TOC ---
+% По умолчанию у разделов 1-го уровня (section) лидеров нет — добавляем точки до номера страницы.
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecdotsep}{\cftdotsep}
+
+% --- 8. ВЫРАВНИВАНИЕ ВСЕХ УРОВНЕЙ TOC ПО ОДНОЙ ЛЕВОЙ ЛИНИИ ---
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{0pt}
+\setlength{\cftsecnumwidth}{2.5em}
+\setlength{\cftsubsecnumwidth}{3.2em}
+\setlength{\cftsubsubsecnumwidth}{4em}
+
+% --- 9. ОДИНАКОВЫЙ ВЕРТИКАЛЬНЫЙ ИНТЕРВАЛ МЕЖДУ СТРОКАМИ TOC ---
+% По умолчанию tocloft ставит перед \cftsec больший отступ (\cftbeforesecskip),
+% чем перед подразделами. Выравниваем — все одинаковые.
+\setlength{\cftbeforesecskip}{6pt}
+\setlength{\cftbeforesubsecskip}{6pt}
+\setlength{\cftbeforesubsubsecskip}{6pt}
+
+
+
+% === 6. ТАБЛИЦЫ ===
+\usepackage{xltabular}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{multirow}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{Z}{>{\raggedright\arraybackslash}X}
+
+% Разрешить перенос первого слова в X-колонках; сбрасываем глобальный hyphenpenalty и parindent внутри ячеек.
+% ВАЖНО: \justifying (ragged2e) должен идти ДО \everypar/\parindent — иначе он перебивает наши настройки
+% и первая строка в ячейке получает абзацный отступ 1.25см от глобального \setlength{\parindent}.
+\renewcommand\tabularxcolumn[1]{>{\justifying\arraybackslash\hyphenpenalty=0\exhyphenpenalty=0\setlength{\parindent}{0pt}\everypar{}\hspace{0pt}}p{#1}}
+\AtBeginEnvironment{xltabular}{\setlength{\parindent}{0pt}}
+
+% === 7. ПОДПИСИ ===
+\usepackage[labelsep=endash]{caption}
+\addto\captionsrussian{
+  \renewcommand{\figurename}{Рисунок}
+  \renewcommand{\tablename}{Таблица}
+}
+\captionsetup[table]{
+    position=top, 
+    justification=raggedright, 
+    singlelinecheck=false, 
+    indent=0pt,
+    format=plain
+}
+\captionsetup[figure]{position=bottom, justification=centering}
+
+% === 8. КАРТИНКИ ===
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% Заставляем ВСЕ плавающие объекты (figure) вставать ровно там, где они в тексте
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+% === 9. СПИСКИ ===
+
+\usepackage{enumitem}
+\setlist{nosep} % Убирает вертикальные отступы между пунктами
+
+% wide=0pt — текст со второй строки идет от левого края (0pt)
+% labelindent=\parindent — маркер первой строки сдвигается на абзацный отступ (1.25 см)
+% label=-- — используем тире для маркированного списка
+\setlist[itemize]{wide=0pt, label=--, labelindent=\parindent}
+
+% То же самое для нумерованного списка
+\setlist[enumerate]{wide=0pt, labelindent=\parindent}
+
+
+% === 10. КОЛОНТИТУЛЫ ===
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% === 11. PANDOC ===
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{colorlinks=false, pdfborder={0 0 0}, breaklinks=true, plainpages=false, pdfpagelabels=true, hypertexnames=false}
+\urlstyle{same}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+
+
+% === 12. МАТЕМАТИКА (ФИНАЛ) ===
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{xcolor}
+
+% 1. Шрифт: БЕЗ Scale (буквы станут нормальными, не жирными)
+\ifxetex
+  \usepackage{unicode-math}
+  \setmathfont{XITS Math}
+\else
+  \usepackage{mathptmx}
+\fi
+
+% 2. Цвет
+\everymath{\color{black}}
+\everydisplay{\color{black}}
+
+% 3. Дроби
+\let\frac\dfrac
+
+% 4. Интервалы в системах
+% Переопределяем cases, чтобы добавить вертикальный отступ [1em] после каждой строки.
+% Это работает для любой версии LaTeX и не ломает скобки.
+\makeatletter
+\renewenvironment{cases}{%
+  \left\lbrace
+  \begin{array}{@{}l@{\quad}l@{}}
+}{%
+  \end{array}\right.
+}
+\makeatother
+
+% А теперь главный трюк: мы заставляем Pandoc вставлять \\[10pt] вместо простого \\
+% Но так как мы не можем менять Pandoc, мы меняем поведение \\ внутри cases.
+% (Это сложно реализовать в преамбуле).
+
+% Простой вариант: используем arraystretch, но умеренный (1.5), 
+% и ОБЯЗАТЕЛЬНО array (который мы подключали).
+\usepackage{array}
+\everydisplay{
+  \renewcommand{\arraystretch}{1.8} % 1.8 даст много воздуха
+}
+
+
+
+
+% === 13. РАМКА ДЛЯ КОДА (НОВОЕ) ===
+% Мы используем пакет 'framed' для простой рамки
+\usepackage{framed}
+
+% Переопределяем окружение Shaded (которое создает Pandoc для кода)
+% Если Shaded уже определено (Pandoc делает это через highlighting-macros),
+% мы его переопределяем. Если нет - определяем.
+
+\ifdefined\Shaded
+  \renewenvironment{Shaded}{\begin{framed}}{\end{framed}}
+\else
+  \newenvironment{Shaded}{\begin{framed}}{\end{framed}}
+\fi
+
+% Дополнительно: настроим отступы рамки, если нужно
+\setlength{\FrameSep}{5pt} % Отступ текста от рамки
+\setlength{\OuterFrameSep}{10pt} % Отступ рамки от текста сверху/снизу
+
+% === 14. ПРИЛОЖЕНИЯ ===
+% Команда \appendix{буква}{название} начинает новую страницу и выводит:
+%   "Приложение А" (по центру, жирным)
+%   "Название приложения" (по центру, обычным)
+% Использование в .md:
+%   \appendix{А}{Схема установки}
+% После этого можно вставлять любые рисунки/таблицы/текст обычным markdown.
+\providecommand{\appendixblock}[2]{%
+  \clearpage
+  \begin{center}
+    \textbf{Приложение #1}\par\vspace{4pt}
+    #2
+  \end{center}
+  \par\vspace{6pt}
+}
+% Короткий алиас, чтобы в .md писалось коротко
+\providecommand{\app}[2]{\appendixblock{#1}{#2}}
+
+% Универсальный «по центру»: \centerline{...} стандартный, но он не переносит.
+% Для многострочного центрирования используй markdown-блок:
+%   \begin{center} ... \end{center}
+% либо в .md обёртку ::: {.center} ... :::  (см. ниже в template — pandoc-фильтр)
+
+$header-includes$
+
+
+
+% === ИСПРАВЛЕНИЕ СПИСКА ЛИТЕРАТУРЫ (УНИВЕРСАЛЬНЫЙ ВАРИАНТ) ===
+\usepackage{calc}
+\usepackage{hyperref}
+
+% Включаем синий цвет ссылок
+\hypersetup{
+    colorlinks=true,      % Ссылки активны (не рамки)
+    linkcolor=black,      % Внутренние ссылки (на литературу) - ЧЕРНЫЕ
+    citecolor=black,      % Цитаты - ЧЕРНЫЕ
+    urlcolor=blue,        % Внешние URL можно оставить синими (или тоже black)
+    pdfborder={0 0 0},    % Убираем рамки на всякий случай
+    breaklinks=true       % Разрешаем переносы ссылок на новую строку
+}
+
+% 1. КОМАНДА ЦИТИРОВАНИЯ В ТЕКСТЕ
+% Создает ссылку на якорь.
+\newcommand{\citeproc}[2]{\hyperlink{#1}{#2}}
+\newcommand{\citeproctext}[1]{#1}
+
+% 2. ВСПОМОГАТЕЛЬНЫЕ КОМАНДЫ CSL
+\newcommand{\CSLLeftMargin}[1]{#1~}
+\newcommand{\CSLRightInline}[1]{#1}
+\newcommand{\CSLIndent}[1]{\hspace{1.5em}#1}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+
+% 3. ВАРИАНТ А: Если Pandoc использует CSLReferences (Новый)
+\newenvironment{CSLReferences}[2]
+  {\begin{description}[font=\normalfont, style=multiline, leftmargin=0pt]}
+  {\end{description}}
+
+\newcommand{\CSLEntry}[2]{%
+  \item[]\phantomsection\hypertarget{#1}{#2}
+}
+
+% 4. ВАРИАНТ Б: Если Pandoc использует bibitem (Старый/Совместимый)
+% Мы переопределяем bibitem так, чтобы он тоже создавал ГИПЕРССЫЛКУ-ЦЕЛЬ
+\let\oldthebibliography\thebibliography
+\let\endoldthebibliography\endthebibliography
+
+\renewenvironment{thebibliography}[1]
+  {\begin{description}[font=\normalfont, style=multiline, leftmargin=0pt]}
+  {\end{description}}
+
+\makeatletter
+\renewcommand{\bibitem}[2][]{%
+  \item[]% Новая строка
+  \phantomsection\hypertarget{#2}{}% СОЗДАЕМ ЦЕЛЬ (Target) из ID (#2)
+  \ignorespaces% Текст источника пойдет следом сам собой
+}
+\makeatother
+
+
+
+\begin{document}
+\pagenumbering{gobble}
+$if(doc-type)$
+% === ТИТУЛЬНЫЙ ЛИСТ (учебная работа ТПУ) ===
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{center}
+  \normalsize
+  Министерство науки и высшего образования Российской Федерации\\[2pt]
+  Федеральное государственное автономное образовательное\\
+  учреждение высшего образования\\[2pt]
+  \textbf{«Национальный исследовательский Томский политехнический университет»}\\[14pt]
+  Инженерная школа информационных технологий и робототехники
+\end{center}
+
+\vfill
+\begin{center}
+  \includegraphics[height=3.2cm]{C:/Reports__pandoc_template/pandoc/logo.png}
+\end{center}
+\vfill
+
+\begin{center}
+  {\large\textbf{$doc-type$$if(work-number)$ № $work-number$$endif$}}\\[10pt]
+  по дисциплине «$subject$»\\[18pt]
+  на тему:\\[4pt]
+  {\large\textbf{«$title$»}}
+\end{center}
+
+\vfill
+
+\noindent
+\begin{tabular}{@{}p{0.42\linewidth}p{0.18\linewidth}>{\raggedleft\arraybackslash}p{0.34\linewidth}@{}}
+$if(authors)$Выполнили студенты группы\newline $if(group)$$group$$else$8Е31$endif$: & \hrulefill & $for(authors)$$it.name$$sep$ \\[10pt]
+ & \hrulefill & $endfor$ \\[14pt]
+$else$Выполнил студент группы\newline $if(group)$$group$$else$8Е31$endif$: & \hrulefill & $if(author)$$author$$else$Макаров С. А.$endif$ \\[14pt]
+$endif$$if(teacher-position)$$teacher-position$:$else$Проверил:$endif$ & \hrulefill & $teacher$ \\
+\end{tabular}
+
+\vfill
+
+\begin{center}
+Томск $if(date)$$date$$else$\the\year$endif$
+\end{center}
+\end{titlepage}
+$else$
+$if(title)$
+\begin{center}
+    \vspace*{2cm}\large\textbf{$title$}\vspace{1cm}
+\end{center}
+$endif$
+$endif$
+$if(toc)$
+\clearpage
+\tableofcontents
+\clearpage
+$endif$
+\pagenumbering{arabic}
+$body$
+\end{document}
+
+
+

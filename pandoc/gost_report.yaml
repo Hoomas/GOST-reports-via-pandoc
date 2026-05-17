@@ -1,0 +1,98 @@
+# Zettlr Pandoc Defaults для ВКР (ГОСТ)
+
+# === ОСНОВНЫЕ ПАРАМЕТРЫ ===
+reader: markdown+smart
+
+writer: pdf
+pdf-engine: xelatex
+
+
+# === ПЕРЕМЕННЫЕ LaTeX ===
+variables:
+  # Язык документа
+  lang: ru
+  biblio-style: gost-numeric
+  # Размер шрифта
+  fontsize: 14pt
+  
+  # Основной шрифт (Times New Roman)
+  mainfont: "Times New Roman"
+  sansfont: "Arial"
+  monofont: "Courier New"
+  
+  # ПОЛЯ ДОКУМЕНТА (ГОСТ 2.105-95)
+  # Левое поле: 30 мм
+  # Правое поле: 15 мм
+  # Верхнее поле: 20 мм
+  # Нижнее поле: 20 мм
+  geometry:
+    - left=30mm
+    - right=15mm
+    - top=20mm
+    - bottom=20mm
+  
+  # Межстрочный интервал 1.5
+  linestretch: 1.5
+  
+  # Секции нумеруются на глубину 4 уровня
+  # (раздел, подраздел, пункт, подпункт)
+  secnumdepth: 4
+  
+  # Глубина оглавления (таблицы содержания)
+  toc-depth: 3
+
+# === ОБЩИЕ ПАРАМЕТРЫ ДОКУМЕНТА ===
+# Таблица содержания (генерируется автоматически)
+toc: true
+
+# Нумеровать разделы арабскими цифрами
+number-sections: true
+
+template: C:/Reports__pandoc_template/pandoc/template.tex
+
+bibliography: C:/Reports__pandoc_template/pandoc/bibliography/sources.bib
+csl: C:/Reports__pandoc_template/pandoc/bibliography/gost-r-7-0-5-2008-numeric.csl
+
+# === ЛОКАЛИЗАЦИЯ ===
+# Названия элементов на русском
+metadata:
+  lang: ru
+  #csl: "C:\\Users\\Simon Makarov\\AppData\\Roaming\\Zettlr\\styles\\gost-r-7-0-5-2008-numeric.csl"
+  link-citations: true
+  # Настройки самого документа (автор, дата...)
+  
+  # Настройки crossref ВНУТРИ metadata (без префикса crossrefYaml, просто поля)
+  figureTitle: "Рисунок"
+  tableTitle: "Таблица"
+  listingTitle: "Листинг"
+  equationTitle: "Формула"
+  
+  figPrefix: "рис."
+  tblPrefix: "табл."
+  lstPrefix: "листинг"
+  eqnPrefix: "ф."
+  secPrefix: "разд."
+  
+  titleDelim: " – "
+
+# === ФИЛЬТРЫ (опционально) ===
+# Раскомментируйте, если установлены фильтры
+filters:
+  - pandoc-crossref
+  - C:/Reports__pandoc_template/pandoc/filters/page-break-sections.lua
+  - C:/Reports__pandoc_template/pandoc/filters/gost-tables.lua
+  - type: citeproc
+
+# Останавливать на первой ошибке
+#fail-if-warnings: false
+
+# Сохранять HTML в исходном виде
+#preserve-tabs: true
+
+# Использовать умные апострофы и кавычки
+
+
+# Преобразование URL в гиперссылки
+#autolink-bare-uris: true
+
+
